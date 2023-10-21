@@ -1,0 +1,57 @@
+/*
+https://leetcode.com/problems/set-matrix-zeroes/
+*/
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int rows = matrix.size();
+        int cols = matrix[0].size();
+        int topRowFlag = 0, sideColumnFlag = 0;
+        for(int j = 1; j < cols; j++){
+            if(matrix[0][j] == 0){
+                topRowFlag = 1;
+            }
+        }
+        for(int i = 1; i < rows; i++){
+            if(matrix[i][0] == 0){
+                sideColumnFlag = 1;
+            }
+        }
+        for(int i = 1; i < rows; i++){
+            for(int j = 1; j < cols; j++){
+                if(matrix[i][j] == 0){
+                    matrix[0][j] = 0;
+                    matrix[i][0] = 0;
+                }
+            }
+        }
+        for(int i = 1; i < rows; i++){
+            for(int j = 1; j < cols; j++){
+                if(matrix[0][j] == 0 || matrix[i][0] == 0){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        //matrix_00_flag is taken, so that the 1st row 0s does not mistakenly set the matrix[0][0] value 1
+        int matrix_00_flag = 0;
+        if(topRowFlag == 1 || matrix[0][0] == 0){
+            for(int j = 0; j < cols; j++){
+                if(j != 0){
+                    matrix[0][j] = 0;
+                } else {
+                    matrix_00_flag = 1;
+                }
+            }
+        }
+        if(sideColumnFlag == 1 || matrix[0][0] == 0){
+            for(int i = 0; i < rows; i++){
+                matrix[i][0] = 0;
+            }
+        }
+        //If flag is 1, then set matrix[0][0] = 1
+        if(matrix_00_flag == 1){
+            matrix[0][0] = 0;
+        }
+        return;
+    }
+};
