@@ -1,0 +1,58 @@
+https://leetcode.com/problems/reverse-pairs/description/
+
+    void merge (vector<int>& nums, int beg, int end) {
+        int mid = beg + (end - beg)/2;
+        int i = beg, j = mid + 1;
+        vector<int> temp;
+        while(i <= mid && j <= end){
+            if(nums[i] <= nums[j]) {
+                temp.push_back(nums[i]);
+                i++;
+            }
+            else {
+                temp.push_back(nums[j]);
+                j++;
+            }
+        }
+        while(i <= mid){
+            temp.push_back(nums[i]);
+            i++;
+        }
+        while(j <= end) {
+            temp.push_back(nums[j]);
+            j++;
+        }
+        int k = beg;
+        for(int a = 0; a < temp.size(); a++){
+            nums[k++] = temp[a];
+        }
+        return;
+    }
+    int countPairs(vector<int>& nums, int beg, int mid, int end) {
+        int left = beg, right = mid + 1;
+        int count = 0;
+        while(left <= mid && right <= end){
+            long long twoTimesRight = (long long)2 * nums[right];
+            if(nums[left] > twoTimesRight){
+                count += mid - left + 1;
+                right++;
+            }
+            else {
+                left++;
+            }
+        }
+        return count;
+    }
+    int mergeSort(vector<int>& nums, int beg, int end) {
+        int count = 0;
+        if(beg >= end) return count;
+        int mid = beg + (end - beg)/2;
+        count += mergeSort(nums, beg, mid);
+        count += mergeSort(nums, mid + 1, end);
+        count += countPairs(nums, beg, mid, end);
+        merge(nums, beg, end);
+        return count;
+    }
+    int reversePairs(vector<int>& nums) {
+       return mergeSort(nums, 0, nums.size() - 1); 
+    }
