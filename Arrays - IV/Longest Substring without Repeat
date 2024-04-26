@@ -1,0 +1,21 @@
+/*
+https://www.naukri.com/code360/problems/630418?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website&leftPanelTabValue=PROBLEM
+*/
+#include <bits/stdc++.h> 
+int uniqueSubstrings(string input)
+{
+    unordered_set<int> st;
+   int start = 0, end = 0;
+   int n = input.size();
+   int maxLen = 0;
+   while(end < n) {
+       while(start <= end && st.find(input[end]) != st.end()){
+           st.erase(input[start]);
+           start++;
+       }
+       st.insert(input[end]);
+       maxLen = max(maxLen, end - start + 1);
+       end++;
+   }
+   return maxLen;
+}
