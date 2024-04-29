@@ -1,0 +1,46 @@
+/*
+https://www.naukri.com/code360/problems/job-sequencing-problem_1169460?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+*/
+#include <bits/stdc++.h>
+
+bool compareVector(const vector<int> &a, const vector<int> &b)
+{
+    return a[2] > b[2];
+}
+
+vector<int> jobScheduling(vector<vector<int>> &jobs)
+{
+    int n = jobs.size();
+    sort(jobs.begin(), jobs.end(), compareVector);
+    vector<int> profits(n + 1, -1);
+    for (int i = 0; i < n; i++)
+    {
+        if (profits[jobs[i][1]] == -1)
+        {
+            profits[jobs[i][1]] = jobs[i][2];
+        }
+        else
+        {
+            int j = jobs[i][1];
+            while (j > 0 && profits[j] != -1)
+            {
+                j--;
+            }
+            if (j > 0)
+            {
+                profits[j] = jobs[i][2];
+            }
+        }
+    }
+    int numOfJobs = 0, maxProfits = 0;
+    for (int i = 0; i < profits.size(); i++)
+    {
+        if (profits[i] != -1)
+        {
+            numOfJobs++;
+            maxProfits += profits[i];
+        }
+    }
+    vector<int> ans = {numOfJobs, maxProfits};
+    return ans;
+}
