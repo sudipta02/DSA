@@ -1,0 +1,22 @@
+/*
+https://www.naukri.com/code360/problems/find-minimum-number-of-coins_975277?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+*/
+vector<int> MinimumCoins(int n)
+{
+    vector<int> denominations = {1000, 500, 100, 50, 20, 10, 5, 2, 1};
+    int num = n;
+    vector<int> ans;
+    for (int i = 0; i < denominations.size(); i++)
+    {
+        if (num / denominations[i] >= 1)
+        {
+            int n_deno = num / denominations[i];
+            for (int j = 1; j <= n_deno; j++)
+            {
+                ans.push_back(denominations[i]);
+            }
+            num = num % denominations[i];
+        }
+    }
+    return ans;
+}

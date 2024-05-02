@@ -1,0 +1,35 @@
+/*
+https://www.naukri.com/code360/problems/fractional-knapsack_975286?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+*/
+#include <bits/stdc++.h>
+
+bool pairCompare(const pair<int, int> &a, const pair<int, int> &b)
+{
+    double a_ratio = (double)a.second / (double)a.first;
+    double b_ratio = (double)b.second / (double)b.first;
+    return a_ratio > b_ratio;
+}
+
+double maximumValue(vector<pair<int, int>> &items, int n, int w)
+{
+    // Write your code here.
+    // ITEMS contains {weight, value} pairs.
+    sort(items.begin(), items.end(), pairCompare);
+    int currentWeight = 0;
+    double maxValue = 0.0;
+    for (int i = 0; i < n; i++)
+    {
+        currentWeight += items[i].first;
+        if (currentWeight <= w)
+        {
+            maxValue += items[i].second;
+        }
+        else
+        {
+            int weightDiff = items[i].first - (currentWeight - w);
+            maxValue += ((double)items[i].second / (double)items[i].first) * (double)weightDiff;
+            break;
+        }
+    }
+    return maxValue;
+}
