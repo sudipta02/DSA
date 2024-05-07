@@ -1,0 +1,26 @@
+/*
+https://www.naukri.com/code360/problems/unique-subsets_3625236?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website&leftPanelTabValue=PROBLEM
+T.C: O(2^n) * O(n)
+S.C: O(2^n) * O(k) + O(n) (k -> Average length of the subsets generated, O(n) for recursive call stack)
+*/
+#include <bits/stdc++.h>
+void findSubsets(int index, int n, vector<vector<int>> &ans, vector<int> &ds, vector<int> &arr)
+{
+    ans.push_back(ds); // This takes n time at worst case
+    for (int i = index; i < n; i++)
+    {
+        if (i != index && arr[i] == arr[i - 1])
+            continue;
+        ds.push_back(arr[i]);
+        findSubsets(i + 1, n, ans, ds, arr);
+        ds.pop_back();
+    }
+}
+vector<vector<int>> uniqueSubsets(int n, vector<int> &arr)
+{
+    vector<int> ds;
+    vector<vector<int>> ans;
+    sort(arr.begin(), arr.end());
+    findSubsets(0, n, ans, ds, arr);
+    return ans;
+}
