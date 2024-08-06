@@ -22,3 +22,28 @@ vector<int> subsetSum(vector<int> &num)
     sort(ans.begin(), ans.end());
     return ans;
 }
+
+OR
+    https : // www.geeksforgeeks.org/problems/subset-sums2234/1
+
+            class Solution
+{
+public:
+    void findSubsets(int index, int sum, int n, vector<int> &ans, vector<int> &arr)
+    {
+        ans.push_back(sum);
+        for (int i = index; i < n; i++)
+        {
+            sum = sum + arr[i];
+            findSubsets(i + 1, sum, n, ans, arr);
+            sum = sum - arr[i];
+        }
+    }
+    vector<int> subsetSums(vector<int> arr, int n)
+    {
+        vector<int> ans;
+        sort(arr.begin(), arr.end());
+        findSubsets(0, 0, n, ans, arr);
+        return ans;
+    }
+};
