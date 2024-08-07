@@ -1,0 +1,23 @@
+https://leetcode.com/problems/permutations/description/
+T.C: O(n * n!)
+n! for generating all the permutations and for each each permutation it takes O(n) time to generate due to the swapping operations and recursive calls.
+
+class Solution {
+public:
+    void recursion(int index, vector<int> &nums, vector<vector<int>> &ans) {
+        if(index == nums.size()){
+            ans.push_back(nums);
+            return;
+        }
+        for(int i = index; i < nums.size(); i++){
+            swap(nums[i], nums[index]);
+            recursion(index + 1, nums, ans);
+            swap(nums[i], nums[index]);
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> ans;
+        recursion(0, nums, ans);
+        return ans;
+    }
+};
