@@ -1,0 +1,46 @@
+https://www.interviewbit.com/problems/allocate-books/
+T.C : O(n *log(sum - max + 1))
+#include <bits/stdc++.h>
+int CountStudents(vector<int> &books, int maxPagesAllocated)
+{
+    int studs = 1;
+    long long pagesStudent = 0;
+    for (int i = 0; i < books.size(); i++)
+    {
+        if (pagesStudent + books[i] <= maxPagesAllocated)
+        {
+            pagesStudent += books[i];
+        }
+        else
+        {
+            studs++;
+            pagesStudent = books[i];
+        }
+    }
+    return studs;
+}
+int Solution::books(vector<int> &books, int students)
+{
+    if (students > books.size())
+        return -1;
+    int low = -1, high = 0;
+    for (int i = 0; i < books.size(); i++)
+    {
+        low = max(low, books[i]);
+        high += books[i];
+    }
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        int countStudents = CountStudents(books, mid);
+        if (countStudents > students)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    return low;
+}
