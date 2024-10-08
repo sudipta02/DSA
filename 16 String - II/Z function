@@ -1,0 +1,24 @@
+https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
+T.C: O(N * M)
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int needle_size = needle.size();
+        int haystack_size = haystack.size();
+        if(needle_size > haystack_size) return -1;
+        int flag = 0;
+        for(int i = 0; i <= haystack_size - needle_size; i++){
+            for(int j = 0, k = i; j < needle_size; j++, k++){
+                if(haystack[k] != needle[j]){
+                    flag = 1;
+                    break;
+                }
+            }
+            if(flag == 0){
+                return i;
+            }
+            flag = 0;
+        }
+        return -1;
+    }
+};
