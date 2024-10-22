@@ -1,0 +1,22 @@
+https://www.geeksforgeeks.org/problems/left-view-of-binary-tree/1
+T.C: O(N)
+S.C: O(H), where H is height of BT.
+void recursiveFn(Node *root, vector<int> &result, int level)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    if (level == result.size())
+        result.push_back(root->data);
+    recursiveFn(root->left, result, level + 1);
+    recursiveFn(root->right, result, level + 1);
+}
+
+// Function to return a list containing elements of left view of the binary tree.
+vector<int> leftView(Node *root)
+{
+    vector<int> result;
+    recursiveFn(root, result, 0);
+    return result;
+}

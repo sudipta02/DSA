@@ -1,0 +1,16 @@
+https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
+T.C: O(N)
+S.C: O(H)
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root == NULL) return NULL;
+        if(root->val == p->val || root->val == q->val) return root;
+
+        TreeNode* ln = lowestCommonAncestor(root->left, p, q);
+        TreeNode* rn = lowestCommonAncestor(root->right, p, q);
+        if(ln != NULL && rn != NULL) return root;
+        if(ln != NULL) return ln;
+        return rn;
+    }
+};

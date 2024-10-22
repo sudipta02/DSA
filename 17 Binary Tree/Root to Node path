@@ -1,0 +1,46 @@
+https://www.interviewbit.com/problems/path-to-given-node/
+T.C: O(N)
+S.C: O(H), where H is the height of the BT.
+bool getPath(TreeNode* node, vector<int> &result, int x){
+    if(node == NULL) return false;
+    
+    result.push_back(node->val);
+    
+    if(node->val == x) return true;
+    if(getPath(node->left, result, x) || getPath(node->right, result, x)) return true;
+    
+    result.pop_back();
+    return false;
+}
+vector<int> Solution::solve(TreeNode* root, int x) {
+    vector<int> result;
+    int hasPath = getPath(root, result, x);
+    return result;
+}
+
+Similar question
+//Print all paths from Root to leaf nodes
+https://www.geeksforgeeks.org/problems/root-to-leaf-paths/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=root-to-leaf-paths
+class Solution {
+  public:
+    void traverse(Node* node, vector<int> &path,vector<vector<int>> &result){
+        if(node == NULL) return;
+        path.push_back(node->data);
+        
+        if(node->left == NULL && node->right == NULL){
+            result.push_back(path);
+        }
+        
+        traverse(node->left, path, result);
+        traverse(node->right, path, result);
+        
+        path.pop_back();
+        return;
+    }
+    vector<vector<int>> Paths(Node* root) {
+        vector<vector<int>> result;
+        vector<int> path;
+        traverse(root, path, result);
+        return result;
+    }
+};

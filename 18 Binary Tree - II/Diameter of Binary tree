@@ -1,0 +1,19 @@
+https://leetcode.com/problems/diameter-of-binary-tree/
+T.C: O(N)
+S.C: O(H)
+class Solution {
+public:
+    pair<int, int> find_diameter(TreeNode* node){
+        if(node == NULL) return {-1, 0};
+        auto left = find_diameter(node->left);
+        auto right = find_diameter(node->right);
+        int node_diameter = left.first + right.first + 2;
+        int diameter = max({node_diameter, left.second, right.second});
+        int height = max(left.first, right.first) + 1;
+        return {height, diameter};
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        auto it = find_diameter(root);
+        return it.second;
+    }
+};

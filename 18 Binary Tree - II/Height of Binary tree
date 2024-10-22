@@ -1,0 +1,21 @@
+https://leetcode.com/problems/maximum-depth-of-binary-tree/
+T.C: O(N)
+S.C: O(H), where H is the height of Binary tree
+class Solution {
+public:
+    void traverse(TreeNode* node, int &max_height, int cur_height){
+        if(node == NULL) return;
+        if(node->left == NULL && node->right == NULL){
+            max_height = max(max_height, cur_height);
+        }
+        traverse(node->left, max_height, cur_height + 1);
+        traverse(node->right, max_height, cur_height + 1);
+    }
+    int maxDepth(TreeNode* root) {
+        if(root == NULL) return 0;
+        int max_height = 0;
+        traverse(root, max_height, 0);
+        max_height++;
+        return max_height;
+    }
+};
