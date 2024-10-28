@@ -1,0 +1,23 @@
+https://leetcode.com/problems/valid-palindrome/
+TC: O(N)
+SC: O(N)
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int n = s.size();
+        string s2 = "";
+        for(int i = 0; i < n; i++){
+            if(s[i] >= 'A' && s[i] <= 'Z'){
+                s2 += s[i] + 32;
+            }
+            else if((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= '0' && s[i] <= '9')){
+                s2 += s[i];
+            }
+        }
+        int n2 = s2.size();
+        for(int i = 0, j = n2 - 1; i < j; i++, j--){
+            if(s2[i] != s2[j]) return false;
+        }
+        return true;
+    }
+};

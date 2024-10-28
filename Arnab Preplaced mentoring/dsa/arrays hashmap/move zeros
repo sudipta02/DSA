@@ -1,0 +1,18 @@
+https://leetcode.com/problems/move-zeroes/description/
+TC: O(N)
+SC: O(1)
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int z = 0;
+        int n = nums.size();
+        for(int nz = 0; nz < n; nz++){
+            if (nums[nz] == 0) continue;
+            while(z < n && nums[z] != 0) z++;
+            if(z < n && z < nz) {
+                swap(nums[z], nums[nz]);
+                z++;
+            }
+        }
+    }
+};
