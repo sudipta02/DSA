@@ -1,0 +1,21 @@
+https://leetcode.com/problems/range-sum-query-2d-immutable/
+//sumRegion works on O(1) time complexity.
+class NumMatrix {
+    vector<vector<int>> sums;
+public:
+    NumMatrix(vector<vector<int>>& matrix) {
+        int r = matrix.size();
+        int c = matrix[0].size();
+        sums = vector<vector<int>>(r+1, vector<int>(c+1, 0));
+        for(int i = 1; i <= r; i++){
+            for(int j = 1; j <= c; j++){
+                sums[i][j] = sums[i-1][j] + sums[i][j-1] - sums[i-1][j-1] + matrix[i-1][j-1];
+            }
+        }
+    }
+    
+    int sumRegion(int row1, int col1, int row2, int col2) {
+        int ans = sums[row2+1][col2+1] - sums[row1][col2+1] - sums[row2+1][col1] + sums[row1][col1];
+        return ans;
+    }
+};
