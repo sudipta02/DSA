@@ -1,0 +1,26 @@
+https://leetcode.com/problems/subarray-sum-equals-k/description/
+TC: O(N)
+SC: O(N)
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        unordered_map<int,int> mp;
+        mp.insert({0,1});
+        int prefixSum = 0, ans = 0;
+        for(int i = 0; i < nums.size(); i++){
+            prefixSum += nums[i];
+            auto it = mp.find(prefixSum - k);
+            if(it != mp.end()){
+                ans += it->second;
+            }
+
+            if(mp.find(prefixSum) != mp.end()){
+                mp[prefixSum]++;
+            }
+            else {
+                mp[prefixSum] = 1;
+            }
+        }
+        return ans;
+    }
+};
