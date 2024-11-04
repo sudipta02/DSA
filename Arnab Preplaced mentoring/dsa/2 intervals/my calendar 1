@@ -1,0 +1,20 @@
+https://leetcode.com/problems/my-calendar-i/description/
+class MyCalendar {
+    vector<pair<int, int>> calendar;
+public:
+    MyCalendar() {
+    }
+    
+    bool book(int startTime, int endTime) {
+        int n = calendar.size();
+        for(int i = 0; i < n; i++){
+            if(startTime >= calendar[i].second || endTime <= calendar[i].first){
+                continue;
+            } else {
+                return false;
+            }
+        }
+        calendar.push_back({startTime, endTime});
+        return true;
+    }
+};

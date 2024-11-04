@@ -1,0 +1,33 @@
+https://leetcode.com/problems/find-right-interval/description/
+TC:O(NlogN)
+SC: O(N)
+class Solution {
+public:
+    vector<int> findRightInterval(vector<vector<int>>& intervals) {
+        int n = intervals.size();
+        vector<int> result(n, -1);
+        vector<pair<int, int>> starts(n);
+        // Store the start times and their original indices
+        for (int i = 0; i < n; i++) {
+            starts[i] = {intervals[i][0], i};
+        }
+        // Sort the starts based on the start times
+        sort(starts.begin(), starts.end());
+
+        // Binary search for the right interval for each interval
+        for (int i = 0; i < n; i++){
+            int lo = 0, hi = n - 1;
+            while (lo <= hi) {
+                int mid = lo + (hi - lo) / 2;
+                if (starts[mid].first >= intervals[i][1]) {
+                    result[i] = starts[mid].second;
+                    hi = mid - 1;
+                } else {
+                    lo = mid + 1;
+                }
+            }
+        }
+
+        return result;
+    }
+};

@@ -1,0 +1,24 @@
+https://leetcode.com/problems/determine-if-two-events-have-conflict/
+class Solution {
+public:
+    int convertToInt(string s){
+        int ans = 0;
+        int mul = 1;
+        for(int i = 0; i < 5; i++){
+            if(i != 2){
+                ans = ans * mul + s[i] - '0';
+                mul *= 10;
+            }
+        }
+        return ans;
+    }
+    bool haveConflict(vector<string>& event1, vector<string>& event2) {
+        int e1_start = convertToInt(event1[0]);
+        int e1_end = convertToInt(event1[1]);
+        int e2_start = convertToInt(event2[0]);
+        int e2_end = convertToInt(event2[1]);
+
+        if(e1_start > e2_end || e2_start > e1_end) return false;
+        return true;
+    }
+};

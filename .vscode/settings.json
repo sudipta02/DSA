@@ -3,6 +3,7 @@
     "search2dmatrix": "c",
     "longest subarray with sum k": "c",
     "two sum - ii": "cpp",
-    "sort colors": "cpp"
+    "sort colors": "cpp",
+    "find right interval": "cpp"
   }
 }

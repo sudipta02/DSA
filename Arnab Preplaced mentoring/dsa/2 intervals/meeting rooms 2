@@ -1,0 +1,35 @@
+https://www.naukri.com/code360/problems/meeting-room-ii_893289?leftPanelTabValue=PROBLEM
+TC: O(NlogN)
+SC: O(N)
+#include <bits/stdc++.h>
+int minRooms(vector<vector<int>> intervals)
+{
+    vector<int> start, end;
+    int n = intervals.size();
+    for (int i = 0; i < n; i++)
+    {
+        start.push_back(intervals[i][0]);
+        end.push_back(intervals[i][1]);
+    }
+    sort(start.begin(), start.end());
+    sort(end.begin(), end.end());
+    int count = 0, start_p = 0, end_p = 0;
+    int ans = 0;
+    while (start_p < n && end_p < n)
+    {
+        if (start[start_p] < end[end_p])
+        {
+            count++;
+            start_p++;
+            ans = max(ans, count);
+        }
+        else
+        {
+            count--;
+            end_p++;
+        }
+    }
+    if (ans == 0)
+        return 1;
+    return ans;
+}
