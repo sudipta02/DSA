@@ -1,0 +1,44 @@
+https://leetcode.com/problems/reverse-words-in-a-string/
+TC: O(N)
+SC: O(1)
+class Solution {
+public:
+    string reverseWords(string s) {
+        int n = s.size();
+        int i = 0, j = 0;
+        //Remove leading spaces
+        while(i < n && s[i] == ' ') i++;
+
+        //Remove intermediate spaces
+        while(i < n){
+            if(i < n && s[i] != ' '){
+                s[j++] = s[i++];
+            }
+            else if(j > 0 && s[j - 1] != ' '){
+                s[j++] = ' ';
+                i++;
+            }
+            else {
+                i++;
+            }
+        }
+
+        //Remove trailing space and resize
+        if(j > 0 && s[j - 1] == ' ') j--;
+        s.resize(j);
+        
+        //Reverse the resized string
+        reverse(s.begin(), s.end());
+
+        //Reverse each word
+        i = 0;
+        for(int k = 0; k <= s.size(); k++){
+            if(s[k] == ' ' || k == s.size()){
+                reverse(s.begin() + i, s.begin() + k);
+                i = k + 1;
+            }
+        }
+        
+        return s;
+    }
+};
