@@ -1,0 +1,30 @@
+https://leetcode.com/problems/count-number-of-nice-subarrays/description/
+TC: O(2 * 2 * N)
+SC: O(1)
+class Solution {
+public:
+    int countLessOrEqual(vector<int> &nums, int k){
+        if(k < 0) return 0;
+        int left = 0, right = 0;
+        int countOdd = 0;
+        int result = 0;
+        while(right < nums.size()){
+            if(nums[right] % 2 != 0){
+                countOdd++;
+            }
+            while(countOdd > k){
+                if(nums[left] % 2 != 0){
+                    countOdd--;
+                }
+                left++;
+            }
+            result += right - left + 1;
+            right++;
+        }
+        return result;
+    }
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        int result = countLessOrEqual(nums, k) - countLessOrEqual(nums, k-1);
+        return result;
+    }
+};

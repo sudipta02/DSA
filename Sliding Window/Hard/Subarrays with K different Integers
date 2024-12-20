@@ -1,0 +1,36 @@
+https://leetcode.com/problems/subarrays-with-k-different-integers/description/
+TC: O(2*N)
+SC: O(K)
+class Solution {
+public:
+int countLessOrEqual(vector<int> &nums, int k){
+        if(k < 0) return 0;
+        int left = 0, right = 0;
+        unordered_map<int, int> hm;
+        int result = 0;
+        while(right < nums.size()){
+            if(hm.find(nums[right]) == hm.end()){
+                hm[nums[right]] = 1;
+            }
+            else {
+                hm[nums[right]]++;
+            }
+            while(hm.size() > k){
+                if(hm[nums[left]] > 1){
+                    hm[nums[left]]--;
+                }
+                else {
+                    hm.erase(nums[left]);
+                }
+                left++;
+            }
+            result += right - left + 1;
+            right++;
+        }
+        return result;
+    }
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        int result = countLessOrEqual(nums, k) - countLessOrEqual(nums, k-1);
+        return result;
+    }
+};

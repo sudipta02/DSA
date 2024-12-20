@@ -1,0 +1,31 @@
+https://leetcode.com/problems/fruit-into-baskets/
+My approach:
+TC: O(N + N)
+SC: O(3)
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        int left = 0 , right = 0;
+        int maxLen = 0;
+        unordered_map<int, int> hm;
+        while(right < fruits.size()){
+            if(hm.find(fruits[right]) == hm.end()){
+                hm[fruits[right]] = 1;
+            } else {
+                hm[fruits[right]]++;
+            }
+            if(hm.size() <= 2){
+                maxLen = max(maxLen, right - left + 1);
+            }
+            while(hm.size() > 2){
+                hm[fruits[left]]--;
+                if(hm[fruits[left]] == 0){
+                    hm.erase(fruits[left]);
+                }
+                left++;
+            }
+            right++;
+        }
+        return maxLen;
+    }
+};
