@@ -1,0 +1,44 @@
+Approach - 1 (Memoization)
+int f(int ind, int w, vector<int> &weights, vector<int> &values, vector<vector<int>> &dp){
+	if(ind == 0){
+		if(w - weights[0] >= 0) return values[0];
+		return 0;
+	}
+	if(dp[ind][w] != -1) return dp[ind][w];
+	int take = 0;
+	if(w-weights[ind] >= 0){
+		take = values[ind] + f(ind-1, w-weights[ind], weights, values, dp);
+	}
+	int notTake = f(ind-1, w, weights, values, dp);
+	return dp[ind][w] = max(notTake, take);
+}
+int maxProfit(vector<int> &values, vector<int> &weights, int n, int w)
+{
+	vector<vector<int>> dp(n, vector<int>(w+1, -1));
+	return f(n-1, w, weights, values, dp);
+}
+
+Approach - 2 (Tabulation)
+int maxProfit(vector<int> &values, vector<int> &weights, int n, int w)
+{
+	vector<vector<int>> dp(n, vector<int>(w+1, 0));
+	for(int i = 0; i < n; i++){
+		for(int j = 1; j <= w; j++){
+			if(i == 0){
+				if(j - weights[0] >= 0) dp[0][j] = values[0];
+				else {
+					dp[0][j] = 0;
+				}
+			}
+			else {
+				int take = 0;
+				if(j - weights[i] >= 0){
+					take = values[i] + dp[i-1][j-weights[i]];
+				}
+				int notTake = dp[i-1][j];
+				dp[i][j] = max(take, notTake);
+			}
+		}
+	}
+	return dp[n-1][w];
+}

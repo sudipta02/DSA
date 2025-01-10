@@ -1,0 +1,53 @@
+https://leetcode.com/problems/triangle/
+Approach - 1 (Memoization/Top-Down)
+class Solution {
+public:
+    int f(int i, int j, vector<vector<int>>& triangle, vector<vector<int>> &dp){
+        if(i == 0) return triangle[0][0];
+        if(dp[i][j] != -1) return dp[i][j];
+        if(j == i) return triangle[i][j] + f(i-1, j-1,triangle, dp);
+        if(j == 0) return triangle[i][j] + f(i-1, j,triangle, dp);
+        return dp[i][j] = triangle[i][j] + min(f(i-1, j-1,triangle, dp), f(i-1, j,triangle, dp));
+    }
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int n = triangle.size();
+        if(n == 1) return triangle[0][0];
+        vector<vector<int>> dp(n, vector<int>(n, -1));
+        int ans = INT_MAX;
+        for(int i = 0; i < n; i++){
+            int total;
+            if(i == 0) total = triangle[n-1][i] + f(n-2, i,triangle, dp);
+            else if(i == n-1) total = triangle[n-1][i] + f(n-2, i-1,triangle, dp);
+            else {
+                total = triangle[n-1][i] + min(f(n-2, i,triangle, dp), f(n-2, i-1,triangle, dp));
+            }
+            ans = min(ans, total);
+        }
+        return ans;
+    }
+};
+
+Approach - 2 (Tabulation/Bottom-Up)
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int n = triangle.size();
+        if(n == 1) return triangle[0][0];
+        vector<vector<int>> dp(n, vector<int>(n, -1));
+        int ans = INT_MAX;
+        dp[0][0] = triangle[0][0];
+        for(int i = 1; i < n; i++){
+            for(int j = 0; j <= i; j++){
+                if(j == 0) dp[i][j] = triangle[i][j] + dp[i-1][j];
+                else if(j == i) dp[i][j] = triangle[i][j] + dp[i-1][j-1];
+                else {
+                    dp[i][j] = triangle[i][j] + min(dp[i-1][j-1], dp[i-1][j]);
+                }
+                if(i == n-1){
+                    ans = min(ans, dp[i][j]);
+                }
+            }
+        }
+        return ans;
+    }
+};

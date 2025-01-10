@@ -1,0 +1,23 @@
+https://leetcode.com/problems/house-robber-ii/
+TC: O(N), SC: O(N)
+class Solution {
+public:
+    int recursion(int i, vector<int> &nums, vector<int> &dp){
+        if(i == 0) return nums[0];
+        if(i == 1) return max(nums[1], nums[0]);
+        if(dp[i] != -1) return dp[i];
+        return dp[i] = max(recursion(i-1, nums, dp), nums[i] + recursion(i-2, nums, dp));
+    }
+    int rob(vector<int> &nums){
+        int n = nums.size();
+        if(n == 1) return nums[0];
+        if(n == 2) return max(nums[0], nums[1]);
+        vector<int> dp1(n-1, -1), dp2(n-1, -1);
+        vector<int> temp1, temp2;
+        for(int i = 0; i < n; i++){
+            if(i != 0) temp1.push_back(nums[i]);
+            if(i != n-1) temp2.push_back(nums[i]);
+        }
+        return max(recursion(n-2, temp1, dp1), recursion(n-2, temp2, dp2));
+    }
+};
