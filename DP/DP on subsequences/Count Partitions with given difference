@@ -1,0 +1,38 @@
+https://www.geeksforgeeks.org/problems/partitions-with-given-difference/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=partitions-with-given-difference
+// Same as target sum
+int countPartitions(vector<int>& nums, int target) {
+    int n = nums.size();
+    int totSum = 0;
+    
+    // Compute total sum of nums
+    for(int i = 0; i < n; i++){
+        totSum += nums[i];
+    }
+
+    // Check if partitioning is possible
+    if(totSum - target < 0 || (totSum - target) % 2 != 0) return 0;
+    
+    int newTarget = (totSum - target) / 2;
+    vector<vector<int>> dp(n, vector<int>(newTarget + 1, 0));
+
+    // Base cases
+    if (nums[0] == 0) dp[0][0] = 2;  // {0} can be included or excluded
+    else dp[0][0] = 1;               // Only {} contributes to sum 0
+
+    if (nums[0] <= newTarget && nums[0] != 0) dp[0][nums[0]] = 1;
+
+    // Fill DP table
+    for(int ind = 1; ind < n; ind++) {
+        for(int t = 0; t <= newTarget; t++) {
+            int take = 0;
+            if(t >= nums[ind]) {
+                take = dp[ind - 1][t - nums[ind]];
+            }
+            int notTake = dp[ind - 1][t];
+
+            dp[ind][t] = take + notTake;
+        }
+    }
+
+    return dp[n - 1][newTarget];
+}
