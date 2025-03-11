@@ -1,0 +1,41 @@
+https://www.geeksforgeeks.org/problems/rod-cutting0840/1
+//Approach 1(Memoization)
+class Solution {
+    public:
+      int f(int ind, int target, vector<int> &price, vector<vector<int>> &dp){
+          if(ind == 0){
+              return target * price[0];
+          }
+          if(dp[ind][target] != -1) return dp[ind][target];
+          int notTake = 0 + f(ind -1, target, price, dp);
+          int take = INT_MIN;
+          if(ind + 1 <= target) take = price[ind] + f(ind, target - (ind + 1), price, dp);
+          return dp[ind][target] = max(take, notTake);
+      }
+      int cutRod(vector<int> &price) {
+          int rodLen = price.size();
+          vector<vector<int>> dp(rodLen, vector<int>(rodLen + 1, -1));
+          return f(rodLen -1, rodLen, price, dp);
+      }
+  };
+
+//Approach 2(Tabulation)
+class Solution {
+    public:
+      int cutRod(vector<int> &price) {
+          int rodLen = price.size();
+          vector<vector<int>> dp(rodLen, vector<int>(rodLen + 1, 0));
+          for(int i = 0; i <= rodLen; i++){
+              dp[0][i] = i * price[0];
+          }
+          for(int i = 1; i < rodLen; i++){
+              for(int j = 0; j <= rodLen; j++){
+                  int notTake = 0 + dp[i -1][j];
+                  int take = INT_MIN;
+                  if(i + 1 <= j) take = price[i] + dp[i][j - (i + 1)];
+                  dp[i][j] = max(take, notTake);
+              }
+          }
+          return dp[rodLen -1][rodLen];
+      }
+  };
