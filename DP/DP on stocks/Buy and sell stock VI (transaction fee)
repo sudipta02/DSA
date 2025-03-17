@@ -1,0 +1,19 @@
+//slight modification of buy and sell stock II
+class Solution {
+public:
+    int f(int ind, bool holding, vector<int> &prices, vector<vector<int>> &dp, int fee){
+            if(ind == prices.size()) return 0;
+            if(dp[ind][holding] != -1) return dp[ind][holding];
+            if(holding){ // we have a stock, decide to sell or hold
+                dp[ind][holding] = max(prices[ind] + f(ind+1, false, prices, dp, fee) - fee, f(ind+1, true, prices, dp, fee));
+            }
+            else{ //we don't have a stock, decide to buy or skip
+                dp[ind][holding] = max(-prices[ind] + f(ind+1, true, prices, dp, fee), f(ind+1, false, prices, dp, fee));
+            }
+            return dp[ind][holding];
+        }
+        int maxProfit(vector<int>& prices, int fee) {
+            vector<vector<int>> dp(prices.size(), vector<int>(2, -1));
+            return f(0, false, prices, dp, fee);
+        }
+};

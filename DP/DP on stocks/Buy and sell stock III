@@ -1,0 +1,44 @@
+Approach 1(Memoization)
+class Solution {
+public:
+    int f(int ind, int holding, int cap, vector<int> &prices, vector<vector<vector<int>>> &dp){
+        if(ind == prices.size() || cap == 0) return 0;
+
+        if(dp[ind][holding][cap] != -1) return dp[ind][holding][cap];
+        if(holding){ //we have a stock, decide to sell or hold
+            dp[ind][holding][cap] = max(prices[ind] + f(ind + 1, false, cap-1, prices, dp), f(ind+1, true, cap, prices, dp));
+        }
+        else { //we don't have a stock, decide to buy or skip
+            dp[ind][holding][cap] = max(-prices[ind] + f(ind + 1, true, cap, prices, dp), f(ind+1, false, cap, prices, dp));
+        }
+
+        return dp[ind][holding][cap];
+    }
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<vector<int>>> dp(n, vector<vector<int>>(2, vector<int>(3, -1)));
+        return f(0, false, 2, prices, dp);
+    }
+};
+
+Approach 2(Tabulation)
+class Solution {
+    public:
+        int maxProfit(vector<int>& prices) {
+            int n = prices.size();
+            vector<vector<vector<int>>> dp(n+1, vector<vector<int>>(2, vector<int>(3, 0)));
+            for(int ind = n-1; ind >= 0; ind--){
+                for(int holding = 0; holding <= 1; holding++){
+                    for(int cap = 1; cap <= 2; cap++){
+                        if(holding){ //we have a stock, decide to sell or hold
+                            dp[ind][holding][cap] = max(prices[ind] + dp[ind + 1][0][cap-1], dp[ind+1][1][cap]);
+                        }
+                        else { //we don't have a stock, decide to buy or skip
+                            dp[ind][holding][cap] = max(-prices[ind] + dp[ind + 1][1][cap], dp[ind+1][0][cap]);
+                        }
+                    }
+                }
+            }
+            return dp[0][0][2];
+        }
+    };
