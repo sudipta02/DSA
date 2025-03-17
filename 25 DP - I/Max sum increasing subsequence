@@ -1,0 +1,51 @@
+// https://www.geeksforgeeks.org/problems/maximum-sum-increasing-subsequence4749/1
+//Approach 1 (Memoization)
+class Solution {
+  public:
+    int f(int ind, int last_ind, vector<int> &arr, vector<vector<int>> &dp){
+        if(ind == 0) {
+            if(last_ind == 0 || arr[0] < arr[last_ind-1] ) return arr[0];
+            return 0;
+        }
+        if(dp[ind][last_ind] != -1) return dp[ind][last_ind];
+        int take = 0;
+        if(last_ind == 0 || arr[ind] < arr[last_ind-1]){
+            take = arr[ind] + f(ind-1, ind+1, arr, dp);
+        }
+        int notTake = 0 + f(ind-1, last_ind, arr, dp);
+        return dp[ind][last_ind] = max(take, notTake);
+    }
+    int maxSumIS(vector<int>& arr) {
+        int n = arr.size();
+        vector<vector<int>> dp(n, vector<int>(n+1, -1));
+        return f(n-1,0,arr, dp);
+    }
+};
+
+// Approach 2(Tabulation)
+class Solution {
+    public:
+      int maxSumIS(vector<int>& arr) {
+          int n = arr.size();
+          vector<vector<int>> dp(n, vector<int>(n+1, 0));
+          for(int i = 0; i <= n; i++){
+              if(i == 0 || arr[0] < arr[i-1]){
+                  dp[0][i] = arr[0];
+              }
+              else {
+                  dp[0][i] = 0;
+              }
+          }
+          for(int ind = 1; ind < n; ind++){
+              for(int last_ind = n; last_ind >= 0; last_ind--){
+                  int take = 0;
+                  if(last_ind == 0 || arr[ind] < arr[last_ind-1]){
+                      take = arr[ind] + dp[ind-1][ind+1];
+                  }
+                  int notTake = 0 + dp[ind-1][last_ind];
+                  dp[ind][last_ind] = max(take, notTake);
+              }
+          }
+          return dp[n-1][0];
+      }
+  };

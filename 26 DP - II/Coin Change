@@ -1,0 +1,61 @@
+//Approach 1(Memoization)
+class Solution {
+public:
+    int f(int ind, int amt, vector<int> &coins, vector<vector<int>> &dp){
+        if(amt == 0) return 0;
+        if(ind == 0){
+            if(coins[0] <= amt && amt % coins[0] == 0){
+                return amt/coins[0];
+            }
+            else {
+                return 1e9;
+            }
+        }
+        if(dp[ind][amt] != -1) return dp[ind][amt];
+        int take = 1e9;
+        if(coins[ind] <= amt){
+            take = 1 + f(ind, amt - coins[ind], coins, dp);
+        }
+        int notTake = f(ind-1, amt, coins, dp);
+        return dp[ind][amt] = min(take, notTake);
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        if(amount == 0) return 0;
+        int n = coins.size();
+        vector<vector<int>> dp(n, vector<int>(amount+1, -1));
+        int ans = f(n-1, amount, coins, dp);
+        if(ans == 1e9) return -1;
+        return ans;
+    }
+};
+
+//Approach 2(Tabulation)
+class Solution {
+    public:
+        int coinChange(vector<int>& coins, int amount) {
+            if(amount == 0) return 0;
+            int n = coins.size();
+            vector<vector<int>> dp(n, vector<int>(amount+1, 0));
+            for(int i = 0; i <= amount; i++){
+                if(coins[0] <= i && i % coins[0] == 0){
+                    dp[0][i] = i/coins[0];
+                }
+                else{
+                    dp[0][i] = 1e9;
+                }
+            }
+            for(int ind = 1; ind < n; ind++){
+                for(int amt = 1; amt <= amount; amt++){
+                    int take = 1e9;
+                    if(coins[ind] <= amt){
+                        take = 1 + dp[ind][amt - coins[ind]];
+                    }
+                    int notTake = dp[ind-1][amt];
+                    dp[ind][amt] = min(take, notTake);
+                }
+            }
+            int ans = dp[n-1][amount];
+            if(ans >= 1e9) return -1;
+            return ans;
+        }
+    };
