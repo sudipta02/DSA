@@ -1,0 +1,44 @@
+/**
+ * Floor is the largest element <= target
+ * Ceil is the smallest element >= target
+ * Ceil is equivalent to lower_bound
+ */
+pair<int, int> getFloorAndCeil(vector<int> &a, int n, int x)
+{
+    int floor = INT_MAX, ceil = INT_MAX;
+    int low = 0, high = n - 1;
+    // finding floor
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        if (a[mid] <= x)
+        {
+            floor = a[mid];
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    // finding ceil
+    low = 0, high = n - 1;
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        if (a[mid] >= x)
+        {
+            ceil = a[mid];
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
+        }
+    }
+    if (floor == INT_MAX)
+        floor = -1;
+    if (ceil == INT_MAX)
+        ceil = -1;
+    return make_pair(floor, ceil);
+}

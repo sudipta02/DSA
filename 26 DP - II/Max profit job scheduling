@@ -1,0 +1,37 @@
+//DP solution throwing TLE
+class Solution {
+    public:
+        int f(int ind, int last_ind, vector<pair<int,pair<int, int>>> &container, vector<vector<int>> &dp){
+            if(ind == container.size() -1){
+                if(last_ind == -1 || container[ind].first >= container[last_ind].second.first){
+                    return container[ind].second.second;
+                }
+                return 0;
+            }
+            if(dp[ind][last_ind + 1] != -1) return dp[ind][last_ind+1];
+            int take = 0;
+            if(last_ind == -1 || container[ind].first >= container[last_ind].second.first){
+                take = container[ind].second.second + f(ind+1, ind, container, dp);
+            }
+            int notTake = f(ind+1, last_ind, container, dp);
+            return dp[ind][last_ind+1] = max(take, notTake);
+        }
+        static bool compare(const pair<int,pair<int, int>> &a, const pair<int,pair<int, int>> &b){
+            if (a.first != b.first) 
+                return a.first < b.first; // Sort by `first`
+            if (a.second.first != b.second.first) 
+                return a.second.first < b.second.first; // Sort by `second.first`
+            return a.second.second < b.second.second; // Sort by `second.second`
+        }
+        int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
+            int n = profit.size();
+            vector<vector<int>> dp(n, vector<int>(n, -1));
+            vector<pair<int,pair<int, int>>> container;
+            for(int i = 0; i < n; i++){
+                pair<int, pair<int, int>> temp = {startTime[i], {endTime[i], profit[i]}};
+                container.push_back(temp);
+            }
+            sort(container.begin(), container.end(), compare);
+            return f(0, -1, container, dp);
+        }
+    };
