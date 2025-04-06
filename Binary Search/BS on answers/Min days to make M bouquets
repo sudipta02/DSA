@@ -1,0 +1,40 @@
+TC: O(n) * O(log(max element))
+class Solution {
+public:
+    bool possible(vector<int>& bloomDay, int m, int k, int days){
+        int count = 0;
+        int num_bouq = 0;
+        for(int i = 0; i < bloomDay.size(); i++){
+            if(bloomDay[i] <= days){
+                count++;
+            }
+            else {
+                num_bouq += count/k;
+                count = 0;
+            }
+        }
+        num_bouq += count/k;
+        return num_bouq >= m;
+    }
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        long long num_flowers_req = (long long)m*k;
+        if(num_flowers_req > bloomDay.size()) return -1;
+        int low = INT_MAX, high = INT_MIN;
+        for(int i = 0; i < bloomDay.size(); i++){
+            low = min(low, bloomDay[i]);
+            high = max(high, bloomDay[i]);
+        }
+        int ans = 0;
+        while(low <= high){
+            int mid = (low+high)/2;
+            if(possible(bloomDay, m, k, mid)){
+                ans = mid;
+                high = mid-1;
+            }
+            else {
+                low = mid+1;
+            }
+        }
+        return ans;
+    }
+};

@@ -9,7 +9,8 @@
     "unique paths - ii": "cpp",
     "search in rotated array ii": "cpp",
     "Single element in a sorted array": "cpp",
-    "find sqrt of element": "cpp"
+    "find sqrt of element": "cpp",
+    "find nth root": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
