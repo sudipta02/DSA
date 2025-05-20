@@ -1,0 +1,43 @@
+https://www.interviewbit.com/problems/painters-partition-problem/
+//Exactly same as split array minimize largest sum
+int findSplits(vector<int> &nums, int maxSum)
+{
+    int splits = 1, sum = 0;
+    for (int i = 0; i < nums.size(); i++)
+    {
+        if (sum + nums[i] <= maxSum)
+        {
+            sum += nums[i];
+        }
+        else
+        {
+            splits++;
+            sum = nums[i];
+        }
+    }
+    return splits;
+}
+int Solution::paint(int k, int B, vector<int> &nums)
+{
+    int maxe = INT_MIN, sume = 0;
+    for (int i = 0; i < nums.size(); i++)
+    {
+        maxe = max(nums[i], maxe);
+        sume += nums[i];
+    }
+    int low = maxe, high = sume;
+    int ans = 0;
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        int splits = findSplits(nums, mid);
+        if (splits > k)
+            low = mid + 1;
+        else
+        {
+            ans = mid;
+            high = mid - 1;
+        }
+    }
+    return ((long long)ans * B) % 10000003;
+}

@@ -1,0 +1,29 @@
+https://www.naukri.com/code360/problems/aggressive-cows_1082559?leftPanelTabValue=PROBLEM
+bool canWePlace(vector<int> &stalls, int cows, int dist){
+    int cntCows = 1, last = stalls[0];
+    for(int i = 1; i < stalls.size(); i++){
+        if(stalls[i] - last >= dist){
+            cntCows++;
+            last = stalls[i];
+        }
+    }
+    if(cntCows >= cows) return true;
+    return false;
+}
+int aggressiveCows(vector<int> &stalls, int k)
+{
+    int cows = k;
+    sort(stalls.begin(), stalls.end());
+    int n = stalls.size();
+    int low = 1, high = stalls[n-1] - stalls[0];
+    while(low <= high){
+        int mid = (low+high)/2;
+        if(canWePlace(stalls, cows, mid)){
+            low = mid + 1;
+        }
+        else {
+            high = mid-1;
+        }
+    }
+    return high;
+}

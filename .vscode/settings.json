@@ -10,7 +10,9 @@
     "search in rotated array ii": "cpp",
     "Single element in a sorted array": "cpp",
     "find sqrt of element": "cpp",
-    "find nth root": "cpp"
+    "find nth root": "cpp",
+    "painter's partition": "cpp",
+    "median of 2 sorted arrays": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }

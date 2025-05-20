@@ -1,0 +1,30 @@
+https://www.naukri.com/code360/problems/allocate-books_1090540?leftPanelTabValue=PROBLEM
+int allocateBooks(vector<int> &arr, int maxPages){
+    int cntStuds = 1, maxP = 0;
+    for(int i = 0; i < arr.size(); i++){
+        if(maxP + arr[i] <= maxPages){
+            maxP += arr[i];
+        }
+        else {
+            cntStuds++;
+            maxP = arr[i];
+        }
+    }
+    return cntStuds;
+}
+int findPages(vector<int>& arr, int n, int m) {
+    if(m > n) return -1;
+    int maxPages = 0, sumPages = 0;
+    for(int i = 0; i < n; i++){
+        maxPages = max(maxPages, arr[i]);
+        sumPages += arr[i];
+    }
+    int low = maxPages, high = sumPages;
+    while(low <= high){
+        int mid = (low + high)/2;
+        int cntStuds = allocateBooks(arr, mid);
+        if(cntStuds > m) low = mid+1;
+        else high = mid-1;
+    }
+    return low;
+}
