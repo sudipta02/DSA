@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int lowerBound(vector<int> &row){
+        int lb_index = INT_MAX;
+        int low = 0, high = row.size() - 1;
+        while(low <= high){
+            int mid = (low + high)/2;
+            if(row[mid] >= 1){
+                lb_index = mid;
+                high = mid-1;
+            }
+            else {
+                low = mid + 1;
+            }
+        }
+        return lb_index;
+    }
+    vector<int> rowAndMaximumOnes(vector<vector<int>>& mat) {
+        int m = mat.size();
+        int n = mat[0].size();
+        int index = 0, ones = 0;
+        for(int i = 0; i < m; i++){
+            sort(mat[i].begin(), mat[i].end());
+        }
+        for(int i = 0; i < m; i++){
+            int lb_index = lowerBound(mat[i]);
+            if(lb_index != INT_MAX) {
+                int tempOnes = n - lb_index;
+                if(tempOnes > ones){
+                    ones = tempOnes;
+                    index = i;
+                }
+            }
+        }
+        return {index, ones};
+    }
+};
