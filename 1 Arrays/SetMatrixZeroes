@@ -1,6 +1,7 @@
 /*
 https://leetcode.com/problems/set-matrix-zeroes/
 */
+//Follow the below java optimal solution for a cleaner approach
 class Solution {
 public:
     void setZeroes(vector<vector<int>>& matrix) {
@@ -55,3 +56,77 @@ public:
         return;
     }
 };
+
+/*Better Java solution*/
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int rowCount = matrix.length;
+        int colCount = matrix[0].length;
+
+        int[] rowFlag = new int[rowCount];
+        int[] colFlag = new int[colCount];
+
+        for(int i = 0; i < rowCount; i++){
+            for(int j = 0; j < colCount; j++){
+                if(matrix[i][j] == 0){
+                    rowFlag[i] = 1;
+                    colFlag[j] = 1;
+                }
+            }
+        }
+
+        for(int i = 0; i < rowCount; i++){
+            for(int j = 0; j < colCount; j++){
+                if(rowFlag[i] == 1 || colFlag[j] == 1){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+}
+
+/*Optimal Java solution*/
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int firstRowFlag = 1, firstColFlag = 1;
+        int colCount = matrix[0].length, rowCount = matrix.length;
+        for(int i = 0; i < rowCount; i++){
+            if(matrix[i][0] == 0){
+                firstColFlag = 0;
+            }
+        }
+        for(int j = 0; j < colCount; j++){
+            if(matrix[0][j] == 0){
+                firstRowFlag = 0;
+            }
+        }
+
+        for(int i = 1; i < rowCount; i++){
+            for(int j = 1; j < colCount; j++){
+                if(matrix[i][j] == 0){
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+            }
+        }
+
+        for(int i = 1; i < rowCount; i++){
+            for(int j = 1; j < colCount; j++){
+                if(matrix[i][0] == 0 || matrix[0][j] == 0){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        for(int i = 0; i < rowCount; i++){
+            if(firstColFlag == 0){
+                matrix[i][0] = 0;
+            }
+        }
+        for(int j = 0; j < colCount; j++){
+            if(firstRowFlag == 0){
+                matrix[0][j] = 0;
+            }
+        }
+    }
+}

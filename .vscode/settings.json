@@ -12,7 +12,9 @@
     "find sqrt of element": "cpp",
     "find nth root": "cpp",
     "painter's partition": "cpp",
-    "median of 2 sorted arrays": "cpp"
+    "median of 2 sorted arrays": "cpp",
+    "count inversions": "cpp",
+    "grid unique paths": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }

@@ -1,5 +1,44 @@
 https://leetcode.com/problems/unique-paths/description/
 
+//Recursion + memoization approach
+class Solution {
+public:
+    int dfs(int r, int c, int m, int n, vector<vector<int>> &memo){
+        if(r >= m || c >= n) return 0;
+        if(r == m-1 && c == n-1) return 1;
+        if(memo[r][c] != -1) return memo[r][c];
+        memo[r][c] = dfs(r+1, c, m, n, memo) + dfs(r, c+1, m, n, memo);
+        return memo[r][c];
+    }
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> memo(m, vector<int>(n, -1));
+        return dfs(0, 0, m, n, memo);
+    }
+};
+
+//DP approach (prefer this)
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> memo(m, vector<int>(n, -1));
+        for(int r = m-1; r >= 0; r--){
+            for(int c = n-1; c >= 0; c--){
+                if(r == m-1 && c == n-1){
+                    memo[r][c] = 1;
+                }
+                else {
+                    int t1 = 0, t2 = 0;
+                    if(r+1 < m) t1 = memo[r+1][c];
+                    if(c+1 < n) t2 = memo[r][c+1];
+                    memo[r][c] = t1 + t2;
+                }
+            }
+        }
+        return memo[0][0];
+    }
+}
+
+//Cominatorics approach
     int uniquePaths(int m, int n) {
         int nc = m + n -2;
         int r = n - 1;
